@@ -2,8 +2,8 @@
 """
 set PYTHONIOENCODING=UTF-8
 Usage: 
-Windows/Linux:   ghq.py --repo 'giorgiosaez/GitHub-PR-Query-tool' --jira_key "QT-1" --since "3 days"
-Mac:              ./ghq --repo 'giorgiosaez/GitHub-PR-Query-tool' --jira_key "QT-1" --since "3 days"
+Windows/Linux:   ghq.py --repo 'giorgiosaez/GitHub-PR-Query-tool' --jira_key "QT-1" --since "3 days" --github_token "YourToken"
+Mac:              ./ghq --repo 'giorgiosaez/GitHub-PR-Query-tool' --jira_key "QT-1" --since "3 days" --github_token "YourToken"
 """
 
 import sys, getopt
@@ -24,6 +24,7 @@ def main(argv):
     repo = ''
     jira_key = ''  
     since = ''
+    gitToken = "000be9b03ceb655394007f5b4ab842193431b465"
     try:
         opts, args = getopt.getopt(argv,"hs:k:r:",["since=","jira_key=","repo="])
     except getopt.GetoptError:
@@ -34,7 +35,7 @@ def main(argv):
             print 'ghp.py -r <repo> -k <jira_key> -s <since>'
             sys.exit()
         elif opt in ("-r" ,"--repo"):
-            repo = arg
+            repo = arg.strip("'") 
         elif opt in ("-k", "--jira_key"):
             jira_key = arg   
         elif opt in ("-s", "--since"):
@@ -43,14 +44,15 @@ def main(argv):
                 since = "1 " + since 
             if 'ago' not in since:
                 since += ' ago'       
-                
+        elif opt in ("-t","--github_token") :
+            gitToken = arg
     dateFrom = dateparser.parse(since)
     dateTo = datetime.date.today()
     
-    git = Github('42e818da437f7553f45416eb41c4172be353bc0f')
+    git = Github(gitToken)
+
     gitRepo = git.get_repo('h2oai/h2o-3')
     pulls = gitRepo.get_pulls(state="all")
-
     usersTable = []
     prTable = []
     for PR in pulls:
