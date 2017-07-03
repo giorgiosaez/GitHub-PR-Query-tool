@@ -24,7 +24,7 @@ def main(argv):
     repo = ''
     jira_key = ''  
     since = ''
-    gitToken = "000be9b03ceb655394007f5b4ab842193431b465"
+    gitToken = "9355c989087d07f311345f3dadcd1f829b9f0aab"
     try:
         opts, args = getopt.getopt(argv,"hs:k:r:",["since=","jira_key=","repo="])
     except getopt.GetoptError:
