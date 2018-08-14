@@ -24,7 +24,7 @@ def main(argv):
     repo = ''
     jira_key = ''  
     since = ''
-    gitToken = "9355c989087d07f311345f3dadcd1f829b9f0aab"
+    gitToken = ''
     try:
         opts, args = getopt.getopt(argv,"hs:k:r:",["since=","jira_key=","repo="])
     except getopt.GetoptError:
@@ -51,7 +51,7 @@ def main(argv):
     
     git = Github(gitToken)
 
-    gitRepo = git.get_repo('h2oai/h2o-3')
+    gitRepo = git.get_repo(repo)
     pulls = gitRepo.get_pulls(state="all")
     usersTable = []
     prTable = []
